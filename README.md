@@ -3,6 +3,7 @@
 The Los Angeles Times' independent tally of coronavirus cases in California.
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/datadesk/california-coronavirus-data/master?urlpath=lab/tree/notebooks/examples.ipynb)
+![Jupyer Notebook tests](https://github.com/datadesk/california-coronavirus-data/workflows/Jupyer%20Notebook%20tests/badge.svg)
 
 ## About the data
 
@@ -72,46 +73,22 @@ It comes with all of the same caveats as its source. It is included here as a co
 | `new_confirmed_cases` | integer | The net change in confirmed cases over the previous `date`.                                         |
 | `new_deaths`          | integer | The net change in deaths over the previous `date`.                                                  |
 
+### [latimes-agency-websites.csv](./latimes-agency-websites.csv)
+
+The 61 local-health agency websites that the Los Angeles Times consults to conduct its survey.
+
+| field    | type   | description                                                 |
+| -------- | ------ | ----------------------------------------------------------- |
+| `agency` | string | The name of the county or city public health agency.        |
+| `url`    | string | The location of the agency's website on the World Wide Web. |
+
 ### [latimes-place-totals.csv](./latimes-place-totals.csv)
 
 Some counties, primarily in Southern California, break out the location of cases within their service area. The Times is gathering and consolidating these lists. Each row contains cumulative case totals reported in that area as of that date.
 
-These counties currently provide the data and are being tracked by The Times:
+The following counties currently do not report cases by locality: Alpine, Colusa, Del Norte, Glenn, Inyo, Lake, Lassen, Madera, Mariposa, Modoc, San Benito, San Mateo, Shasta, Sierra, Siskiyou, Sutter, Tehama, Trinity, Tuolumne and Yuba
 
-- Alameda
-- Butte
-- Contra Costa
-- El Dorado
-- Fresno
-- Humboldt
-- Imperial
-- Kern
-- Kings
-- Los Angeles
-- Marin
-- Merced
-- Mono
-- Monterey
-- Napa
-- Orange
-- Placer
-- Riverside
-- Sacramento
-- San Bernardino
-- San Diego
-- San Francisco
-- San Joaquin
-- San Luis Obispo
-- Santa Barbara
-- Santa Clara
-- Solano
-- Sonoma
-- Stanislaus
-- Tulare
-- Ventura
-- Yolo
-
-The locations provided by Los Angeles County correspond to the public health department's official "Countywide Statistical Areas". Locations in other counties are manually geocoded by The Times. San Francisco provides data at the ZIP Code level.
+Some counties provide data by region. The locations provided by Los Angeles County correspond to the public health department's official "Countywide Statistical Areas". Locations in other counties are manually geocoded by The Times. San Francisco and Imperial counties provide data at the ZIP Code level.
 
 Be aware that some counties have shifted the place names used over time.
 
@@ -204,6 +181,56 @@ In some circumstances the true total of cases is obscured. The lowest number in 
 | `staff_note`    | string  | In cases where the `staff` are obscured, this explains the range of possible values.                                                                                                 |
 | `patients_note` | string  | In cases where the `patients` are obscured, this explains the range of possible values.                                                                                              |
 | `type`          | string  | What type of nursing home is being reported, either `assisted living` or `skilled nursing`.                                                                                          |
+
+### [cdph-hospital-patient-county-totals.csv](./cdph-hospital-patient-county-totals.csv)
+
+California's Department of Public Health is releasing [county-level hospitalization totals](https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics).
+
+| field                    | type    | description                                                                                                                                                                          |
+| ------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `date`                   | date    | The date for which hospital data were reported in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.                                                                         |
+| `county`                 | string  | The name of the county.                                                                                                                                                              |
+| `fips`                   | string  | The [FIPS code](https://en.wikipedia.org/wiki/Federal_Information_Processing_Standards) given to the county by the federal government. Can be used to merge with other data sources. |
+| `positive_patients`      | integer | The current number confirmed coronavirus cases in hospitals on this `date`.                                                                                                          |
+| `suspected_patients`     | integer | The current number suspected coronavirus cases in hospitals on this `date`.                                                                                                          |
+| `icu_positive_patients`  | integer | The current number confirmed coronavirus cases in intensive-care units on this `date`.                                                                                               |
+| `icu_suspected_patients` | integer | The current number suspected coronavirus cases in intensive-care units on this `date`.                                                                                               |
+
+### [latimes-project-roomkey-totals.csv](./latimes-project-roomkey-totals.csv)
+
+Los Angeles County officials have launched an unprecedented effort to shield 15,000 homeless people from the coronavirus by moving them into hotel rooms. The Times is tracking the latest data from the Los Angeles County Emergency Operations Center and the Los Angeles County Department of Public Health.
+
+| field                      | type    | description                                                                                             |
+| -------------------------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `date`                     | date    | The date on which data were reported in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.      |
+| `people_housed`            | integer | The current number of homeless people in Los Angeles County housed on this `date`.                      |
+| `leased_rooms`             | integer | The current number hotel rooms leased on this `date`.                                                   |
+| `rooms_ready_to_occupy`    | integer | The subset of leased rooms that were ready to occupy on this `date`.                                    |
+| `rooms_occupied`           | integer | The subset of ready rooms that were occupied on this `date`.                                            |
+| `homeless_confirmed_cases` | integer | The cumulative number of homeless people in Los Angeles County that had tested positive by this `date`. |
+
+### [latimes-beach-closures-county-list.csv](./latimes-beach-closures-county-list.csv)
+
+The county-level restrictions on beach access, compiled by the Los Angeles Times based on data released by the California Coastal Commission.
+
+| field         | type   | description                                                                                                                                                                            |
+| ------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `county`      | string | The name of the county where the agency is based.                                                                                                                                      |
+| `fips`        | string | The [FIPS code](https://en.wikipedia.org/wiki/Federal_Information_Processing_Standards) given to the `county` by the federal government. Can be used to merge with other data sources. |
+| `status`      | string | A Times classification of the current level of restriction in this county                                                                                                              |
+| `restriction` | string | A description of the current level of restriction in this county                                                                                                                       |
+
+### [latimes-beach-closures-area-list.csv](./latimes-beach-closures-area-list.csv)
+
+The subcounty-level restrictions on beach access, compiled by the Los Angeles Times based on data released by the California Coastal Commission.
+
+| field         | type    | description                                                                                                                                                                            |
+| ------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `county`      | string  | The name of the county where the agency is based.                                                                                                                                      |
+| `fips`        | string  | The [FIPS code](https://en.wikipedia.org/wiki/Federal_Information_Processing_Standards) given to the `county` by the federal government. Can be used to merge with other data sources. |
+| `area`        | string  | The name of the sub-county area being tracked.                                                                                                                                         |
+| `state_park`  | boolean | An indicator if this area is a state park.                                                                                                                                             |
+| `restriction` | string  | A description of the current level of restriction in this area.                                                                                                                        |
 
 ## Getting started
 
